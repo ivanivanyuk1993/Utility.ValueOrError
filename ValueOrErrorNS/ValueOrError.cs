@@ -23,6 +23,7 @@
             _value = value;
         }
 
+        public bool IsError => !IsValue;
         public TError Error => _error!;
         public TValue Value => _value!;
 
