@@ -23,11 +23,7 @@
             _value = value;
         }
 
-        public bool IsError => !IsValue;
-        public TError Error => _error!;
-        public TValue Value => _value!;
-
-        public static ValueOrError<TValue, TError> WithError(TError error)
+        public static ValueOrError<TValue, TError> Error(TError error)
         {
             return new(
                 isValue: false,
@@ -36,13 +32,74 @@
             );
         }
 
-        public static ValueOrError<TValue, TError> WithValue(TValue value)
+        public static ValueOrError<TValue, TError> Value(TValue value)
         {
             return new(
                 isValue: true,
                 error: default,
                 value: value
             );
+        }
+
+        public void RunActionWithValueOrError(
+            Action<TValue> runActionWithValueFunc,
+            Action<TError> runActionWithErrorFunc
+        )
+        {
+            if (IsValue)
+            {
+                runActionWithValueFunc(obj: _value!);
+            }
+            else
+            {
+                runActionWithErrorFunc(obj: _error!);
+            }
+        }
+
+        public ValueOrError<TResultWithValue, TResultWithError> RunActionWithResultWithValueOrError<TResultWithValue, TResultWithError>(
+            Func<TValue, TResultWithValue> runActionWithResultWithValueFunc,
+            Func<TError, TResultWithError> runActionWithResultWithErrorFunc
+        )
+        {
+            return IsValue
+                ? ValueOrError<TResultWithValue, TResultWithError>.Value(
+                    value: runActionWithResultWithValueFunc(
+                        arg: _value!
+                    )
+                )
+                : ValueOrError<TResultWithValue, TResultWithError>.Error(
+                    error: runActionWithResultWithErrorFunc(
+                        arg: _error!
+                    )
+                );
+        }
+
+        public Task RunAsyncActionWithValueOrError(
+            Func<TValue, Task> runAsyncActionWithValueFunc,
+            Func<TError, Task> runAsyncActionWithErrorFunc
+        )
+        {
+            return IsValue
+                ? runAsyncActionWithValueFunc(arg: _value!)
+                : runAsyncActionWithErrorFunc(arg: _error!);
+        }
+
+        public ValueOrError<Task<TResultWithValue>, Task<TResultWithError>> RunAsyncActionWithResultWithValueOrError<TResultWithValue, TResultWithError>(
+            Func<TValue, Task<TResultWithValue>> runAsyncActionWithResultWithValueFunc,
+            Func<TError, Task<TResultWithError>> runAsyncActionWithResultWithErrorFunc
+        )
+        {
+            return IsValue
+                ? ValueOrError<Task<TResultWithValue>, Task<TResultWithError>>.Value(
+                    value: runAsyncActionWithResultWithValueFunc(
+                        arg: _value!
+                    )
+                )
+                : ValueOrError<Task<TResultWithValue>, Task<TResultWithError>>.Error(
+                    error: runAsyncActionWithResultWithErrorFunc(
+                        arg: _error!
+                    )
+                );
         }
     }
 }
