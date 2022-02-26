@@ -74,6 +74,12 @@
                 );
         }
 
+        /// <summary>
+        ///     Cancellation should be `runAsyncActionWith...Func`
+        /// </summary>
+        /// <param name="runAsyncActionWithValueFunc"></param>
+        /// <param name="runAsyncActionWithErrorFunc"></param>
+        /// <returns></returns>
         public Task RunAsyncActionWithValueOrError(
             Func<TValue, Task> runAsyncActionWithValueFunc,
             Func<TError, Task> runAsyncActionWithErrorFunc
@@ -84,6 +90,14 @@
                 : runAsyncActionWithErrorFunc(arg: _error!);
         }
 
+        /// <summary>
+        ///     Cancellation should be `runAsyncActionWith...Func`
+        /// </summary>
+        /// <param name="runAsyncActionWithResultWithValueFunc"></param>
+        /// <param name="runAsyncActionWithResultWithErrorFunc"></param>
+        /// <typeparam name="TResultWithValue"></typeparam>
+        /// <typeparam name="TResultWithError"></typeparam>
+        /// <returns></returns>
         public ValueOrError<Task<TResultWithValue>, Task<TResultWithError>> RunAsyncActionWithResultWithValueOrError<TResultWithValue, TResultWithError>(
             Func<TValue, Task<TResultWithValue>> runAsyncActionWithResultWithValueFunc,
             Func<TError, Task<TResultWithError>> runAsyncActionWithResultWithErrorFunc
