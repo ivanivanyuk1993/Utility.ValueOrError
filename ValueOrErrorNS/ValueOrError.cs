@@ -56,7 +56,10 @@
             }
         }
 
-        public ValueOrError<TResultWithValue, TResultWithError> RunActionWithResultWithValueOrError<TResultWithValue, TResultWithError>(
+        public ValueOrError<
+            TResultWithValue,
+            TResultWithError
+        > RunActionWithResultWithValueOrError<TResultWithValue, TResultWithError>(
             Func<TValue, TResultWithValue> runActionWithResultWithValueFunc,
             Func<TError, TResultWithError> runActionWithResultWithErrorFunc
         )
@@ -98,19 +101,19 @@
         /// <typeparam name="TResultWithValue"></typeparam>
         /// <typeparam name="TResultWithError"></typeparam>
         /// <returns></returns>
-        public ValueOrError<Task<TResultWithValue>, Task<TResultWithError>> RunAsyncActionWithResultWithValueOrError<TResultWithValue, TResultWithError>(
+        public async Task<ValueOrError<TResultWithValue, TResultWithError>> RunAsyncActionWithResultWithValueOrError<TResultWithValue, TResultWithError>(
             Func<TValue, Task<TResultWithValue>> runAsyncActionWithResultWithValueFunc,
             Func<TError, Task<TResultWithError>> runAsyncActionWithResultWithErrorFunc
         )
         {
             return IsValue
-                ? ValueOrError<Task<TResultWithValue>, Task<TResultWithError>>.Value(
-                    value: runAsyncActionWithResultWithValueFunc(
+                ? ValueOrError<TResultWithValue, TResultWithError>.Value(
+                    value: await runAsyncActionWithResultWithValueFunc(
                         arg: _value!
                     )
                 )
-                : ValueOrError<Task<TResultWithValue>, Task<TResultWithError>>.Error(
-                    error: runAsyncActionWithResultWithErrorFunc(
+                : ValueOrError<TResultWithValue, TResultWithError>.Error(
+                    error: await runAsyncActionWithResultWithErrorFunc(
                         arg: _error!
                     )
                 );
