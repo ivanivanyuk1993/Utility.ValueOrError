@@ -1,0 +1,50 @@
+{
+  "name": "value-or-error",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo 'package `value-or-error` is supposed to be tested with other means, by calling `bash test.sh` or by running test server which exposes tested methods and calling them from other code(to DRY testing of implementations in different languages)' && exit 1"
+  },
+  "author": "Ivan Ivanyuk",
+  "license": "UNLICENSED",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm5/index.js",
+  "es2015": "./dist/esm/index.js",
+  "sideEffects": false,
+  "types": "index.d.ts",
+  "typesVersions": {
+    ">=1.0": {
+      "*": [
+        "dist/types/*"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "default": "./dist/esm5/index.js",
+      "es2015": "./dist/esm/index.js",
+      "node": "./dist/cjs/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/cjs/**/!(*.tsbuildinfo)",
+    "dist/esm/**/!(*.tsbuildinfo)",
+    "dist/esm5/**/!(*.tsbuildinfo)",
+    "dist/types/**/!(*.tsbuildinfo)",
+    "package.json",
+    "src",
+    "tsconfig.json"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "eslint": "^7.27.0",
+    "jest": "^27.0.1",
+    "prettier": "2.3.1",
+    "typescript": "^4.3.2"
+  },
+ "private": true
+}
